@@ -2,7 +2,8 @@ name: Deploy Pages
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main  # pastikan branch utama kamu bernama 'main'
 
 permissions:
   contents: read
@@ -13,9 +14,21 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
+      # 1. Ambil kode dari repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Konfigurasi GitHub Pages
+      - name: Configure Pages
+        uses: actions/configure-pages@v4
+
+      # 3. Upload file website
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v1
         with:
-          path: .
-      - uses: actions/deploy-pages@v4
+          path: .  # pastikan index.html ada di root
+
+      # 4. Deploy Pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+
